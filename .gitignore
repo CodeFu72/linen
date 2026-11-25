@@ -1,0 +1,4 @@
+target/
+
+# Never put notes in Git, locked or not.
+*.gpg

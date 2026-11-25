@@ -1,0 +1,16 @@
+[package]
+name = "linen"
+version = "0.1.0"
+edition = "2024"
+description = "Linen: a soft, clean writing app for notes, with spelling and a helpful right-click"
+
+[dependencies]
+gtk4 = { version = "0.11.5", features = ["v4_16"] }
+serde = { version = "1.0.229", features = ["derive"] }
+serde_json = "1.0.154"
+tiny_http = "0.12.0"
+webkit6 = { version = "0.6.1", features = ["v2_50"] }
+
+[profile.release]
+strip = true
+lto = true

@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Linen</title>
+<link rel="stylesheet" href="/app.css">
+<script>window.LINEN_TOKEN = window.LINEN_TOKEN || "{{TOKEN}}";</script>
+</head>
+<body>
+<div class="sky" aria-hidden="true"><div class="glow"></div></div>
+
+<header class="top">
+  <div class="brand"><span class="logo">LINEN</span><span id="doc-name" class="doc-name">Untitled</span></div>
+  <nav class="actions">
+    <button data-cmd="new" title="New tab (Ctrl+N or Ctrl+T)">＋ New</button>
+    <button data-cmd="open" title="Open a file (Ctrl+O)">Open</button>
+    <button data-cmd="save" class="accent" title="Save (Ctrl+S)">Save</button>
+    <button data-cmd="saveProject" title="Save into a project folder (Ctrl+P)">⇣ To project</button>
+    <button data-cmd="lock" id="lock-btn" title="Save this note password-protected (Ctrl+L)">🔒 Lock</button>
+    <button data-cmd="more" class="ghost" id="more-btn" title="More" aria-haspopup="true">⋯</button>
+  </nav>
+  <div id="more" class="dropdown" hidden>
+    <button data-cmd="close">Close this tab <kbd>Ctrl W</kbd></button>
+    <hr>
+    <button data-cmd="saveAs">Save as…</button>
+    <button data-cmd="saveVault">Save to Obsidian…</button>
+    <hr>
+    <button data-cmd="theme">Theme: <span id="theme-name">Omarchy</span></button>
+    <button data-cmd="font">Font: <span id="font-name">Atkinson</span></button>
+    <button data-cmd="bigger">Bigger text <kbd>Ctrl +</kbd></button>
+    <button data-cmd="smaller">Smaller text <kbd>Ctrl −</kbd></button>
+    <hr>
+    <button data-cmd="password">Copy a new strong password</button>
+  </div>
+</header>
+
+<nav id="tabs" class="tabs" aria-label="Open notes"></nav>
+<div id="banner" class="banner" hidden></div>
+
+<main class="desk">
+  <div id="page" class="page" contenteditable="plaintext-only" spellcheck="true" data-placeholder="Start writing. Right-click for spelling fixes and helpers."></div>
+</main>
+
+<footer class="status">
+  <span id="count">0 words</span>
+  <span id="busy" class="busy" hidden><span class="spinner"></span><span id="busy-text">Working…</span><button id="busy-stop" class="link">Stop</button></span>
+  <span id="saved" class="saved">New note</span>
+</footer>
+
+<div id="syn" class="popover" hidden></div>
+
+<div id="modal" class="modal" hidden>
+  <div class="card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <h2 id="modal-title">Save to a project</h2>
+    <label for="proj-filter">Project</label>
+    <input id="proj-filter" type="search" placeholder="Type to find a project" autocomplete="off">
+    <div id="proj-list" class="proj-list" role="listbox"></div>
+    <label for="proj-title">File name</label>
+    <div class="name-row"><input id="proj-title" type="text" autocomplete="off"><select id="proj-ext"><option value="txt">.txt</option><option value="md">.md</option></select></div>
+    <p id="proj-where" class="hint"></p>
+    <div class="modal-actions">
+      <button data-cmd="saveAs" class="ghost">Somewhere else…</button>
+      <span></span>
+      <button id="proj-cancel" class="ghost">Cancel</button>
+      <button id="proj-save" class="accent">Save</button>
+    </div>
+  </div>
+</div>
+
+<div id="pw-modal" class="modal" hidden>
+  <form id="pw-form" class="card" role="dialog" aria-modal="true" aria-labelledby="pw-title" autocomplete="off">
+    <h2 id="pw-title">Lock this note</h2>
+    <p id="pw-about" class="hint"></p>
+    <label for="pw1">Password</label>
+    <input id="pw1" type="password" autocomplete="new-password">
+    <div id="pw2-row"><label for="pw2">Type it again</label><input id="pw2" type="password" autocomplete="new-password"></div>
+    <label class="check"><input id="pw-show" type="checkbox"> Show password</label>
+    <p id="pw-error" class="error" hidden></p>
+    <div class="modal-actions">
+      <span></span>
+      <button type="button" id="pw-cancel" class="ghost">Cancel</button>
+      <button type="submit" id="pw-ok" class="accent">🔒 Lock</button>
+    </div>
+  </form>
+</div>
+
+<div id="ask-modal" class="modal" hidden>
+  <div class="card" role="dialog" aria-modal="true" aria-labelledby="ask-title">
+    <h2 id="ask-title">This note isn’t saved</h2>
+    <p class="hint">Save it before closing, or close it and let it go.</p>
+    <div class="modal-actions">
+      <button id="ask-drop" class="ghost">Don’t save</button>
+      <span></span>
+      <button id="ask-keep" class="ghost">Keep editing</button>
+      <button id="ask-save" class="accent">Save…</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="toast" hidden></div>
+<script src="/app.js"></script>
+</body>
+</html>
