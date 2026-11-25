@@ -94,9 +94,44 @@ pub fn from_palette(text: &str) -> Option<Value> {
     }))
 }
 
-/// The running Omarchy theme, ready for the page; None without Omarchy.
+/// Omarchy's "glassy windows" switch (Appearance), the one that frosts Ghostty.
+pub fn glass_toggle() -> PathBuf {
+    let state = std::env::var("XDG_STATE_HOME").map(PathBuf::from).unwrap_or_else(|_| files::home().join(".local/state"));
+    state.join("omarchy/toggles/hypr/window-glassy.lua")
+}
+
+/// Ghostty's `background-opacity` (0.85 if the theme doesn't say), kept 0.45 to 0.95 so
+/// text stays readable; None when it's solid.
+pub fn opacity_from(ghostty: &str) -> Option<f64> {
+    let value = ghostty
+        .lines()
+        .filter_map(|l| l.split_once('='))
+        .find(|(k, _)| k.trim() == "background-opacity")
+        .and_then(|(_, v)| v.trim().parse::<f64>().ok())
+        .unwrap_or(0.85);
+    (value < 1.0).then(|| value.clamp(0.45, 0.95))
+}
+
+/// How see-through Linen is: Ghostty's opacity while Omarchy's glassy windows are on.
+pub fn glass() -> Option<f64> {
+    glass_toggle().exists().then(|| opacity_from(&std::fs::read_to_string(state_dir().join("theme/ghostty.conf")).unwrap_or_default())).flatten()
+}
+
+/// The running Omarchy theme, ready for the page; None without Omarchy. With glass on,
+/// the sky (the window background) becomes see-through at Ghostty's opacity; the page
+/// you write on stays nearly solid so text reads well.
 pub fn current() -> Option<Value> {
-    from_palette(&std::fs::read_to_string(state_dir().join("theme/colors.toml")).ok()?)
+    let mut t = from_palette(&std::fs::read_to_string(state_dir().join("theme/colors.toml")).ok()?)?;
+    if let Some(a) = glass() {
+        let vars = t["vars"].as_object_mut()?;
+        for k in ["--sky-a", "--sky-b", "--sky-c"] {
+            if let Some(c) = vars.get(k).and_then(Value::as_str).map(str::to_string) {
+                vars.insert(k.into(), json!(alpha(&c, a)));
+            }
+        }
+        t["glass"] = json!(a);
+    }
+    Some(t)
 }
 
 #[cfg(test)]
@@ -126,6 +161,14 @@ mod tests {
         let unmarked = "background = \"#ffffff\"\nforeground = \"#222222\"\naccent = \"#0055aa\"\n";
         assert_eq!(from_palette(unmarked).unwrap()["mode"], "light");
         assert_eq!(from_palette(unmarked).unwrap()["vars"]["--on-accent"], "#ffffff");
+    }
+
+    #[test]
+    fn glass_follows_ghostty_and_stays_readable() {
+        assert_eq!(opacity_from("background-opacity = 0.65\n"), Some(0.65));
+        assert_eq!(opacity_from("background-opacity = 1\n"), None);
+        assert_eq!(opacity_from("background-opacity = 0.1\n"), Some(0.45));
+        assert_eq!(opacity_from(""), Some(0.85));
     }
 
     #[test]

@@ -1,6 +1,6 @@
 # Linen
 
-**Calm notes that wear your theme.** A soft, clean writing app for notes, lists and passwords on [Omarchy](https://omarchy.org). It takes on your running Omarchy theme's colors and changes with it live when you switch themes. Linen's own Dusk and Dawn themes are one click away.
+**Calm notes that wear your theme.** A soft, clean writing app for notes, lists and passwords on [Omarchy](https://omarchy.org). It takes on your running Omarchy theme's colors and changes with it live when you switch themes. With Omarchy's glassy windows on, it's frosted glass at the same see-through level as Ghostty. Linen's own Dusk and Dawn themes are one click away.
 
 ![Linen in three Omarchy themes, with a made-up note](docs/screenshot.png)
 
@@ -40,7 +40,7 @@ Ctrl+N / Ctrl+T new tab · Ctrl+Tab next tab · Ctrl+1–9 jump to a tab · Ctrl
 - `src/ai.rs`: offline helpers through Ollama on 127.0.0.1 (default model `qwen3:4b-instruct`).
 - `ui/`: `index.html`, `app.js`, `app.css`, fonts and icon, compiled into the binary.
 
-Tests: `cargo test` (20; the GPG tests use their own throwaway key folder, never `~/.gnupg`). When testing the UI, use a sandbox `HOME` and `GNUPGHOME` (create it first), but don't call the AI under a fake `HOME`: it starts an Ollama that can't see the models in `~/.ollama`.
+Tests: `cargo test` (21; the GPG tests use their own throwaway key folder, never `~/.gnupg`). When testing the UI, use a sandbox `HOME` and `GNUPGHOME` (create it first), but don't call the AI under a fake `HOME`: it starts an Ollama that can't see the models in `~/.ollama`.
 
 `scripts/install.sh` builds and installs it with a launcher entry. `linen password 24` prints a strong password.
 

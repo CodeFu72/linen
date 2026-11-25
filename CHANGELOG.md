@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.1 — 2026-11-24
+
+- **Frosted glass, like Ghostty.** With Omarchy's glassy windows on (Appearance), Linen in the Omarchy theme becomes see-through at the same opacity your theme gives Ghostty (from the theme's `ghostty.conf`), and the compositor frosts what shows behind it. The writing page stays nearly solid so text reads well. It follows the glassy-windows switch and theme changes live (file watches, no polling). With glassy windows off, or in Dusk and Dawn, Linen stays solid.
+
 ## 0.1.0 — 2026-11-24 (first public release)
 
 Linen is a calm writing app for notes, lists and passwords on Omarchy: spelling as you type, tabs, autosave, password-locked notes (GPG), optional offline AI helpers, and it wears your running Omarchy theme.
